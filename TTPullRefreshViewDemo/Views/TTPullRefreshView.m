@@ -63,7 +63,14 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 - (void)swizzle_layoutSubviews {
     [self swizzle_layoutSubviews];
     CGFloat refreshViewHeight = [self getRefreshViewHeight];
-    self.refreshView.frame = CGRectMake(0, - refreshViewHeight, self.frame.size.width, refreshViewHeight);
+    UIEdgeInsets scrollViewOriginalInset = [[self.refreshView valueForKey:@"scrollViewOriginalInset"] UIEdgeInsetsValue];
+    BOOL didSetOriginalInsets = [[self.refreshView valueForKey:@"didSetOriginalInsets"] boolValue];
+    if (didSetOriginalInsets) {
+        self.refreshView.frame = CGRectMake(0, - refreshViewHeight - scrollViewOriginalInset.top, self.frame.size.width, refreshViewHeight);
+    }
+    else if(self.contentInset.top != 0) {
+        self.refreshView.frame = CGRectMake(0, - refreshViewHeight - self.contentInset.top, self.frame.size.width, refreshViewHeight);
+    }
 }
 
 #pragma mark - helper
@@ -105,6 +112,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 @property (nonatomic, assign)TTPullRefreshState refreshState;
 @property (nonatomic, strong)NSMutableDictionary *stateTitles;
 @property (nonatomic, strong)UILabel *guidingLabel;//上拉刷新，松手结束，已完成的指示label
+@property (nonatomic, assign)BOOL didSetOriginalInsets;
 
 @end
 
@@ -147,6 +155,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     pullRefreshView.layoutType = TTPullRefreshLayoutTop;
     pullRefreshView.stateTitles = [[NSMutableDictionary alloc] init];
     pullRefreshView.guidingLabel = [[UILabel alloc] init];
+    pullRefreshView.didSetOriginalInsets = NO;
     [pullRefreshView setupPullRefreshView];
     return pullRefreshView;
 }
@@ -191,6 +200,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
                         _scrollView.contentInset = _scrollViewOriginalInset;
                     } completion:^(BOOL finished) {
                         _refreshState = TTPullRefreshStateNone;
+                        _didSetOriginalInsets = NO;
                     }];
                 });
                 return;
@@ -199,6 +209,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
                 _scrollView.contentInset = _scrollViewOriginalInset;
             } completion:^(BOOL finished) {
                 _refreshState = TTPullRefreshStateNone;
+                _didSetOriginalInsets = NO;
             }];
             break;
     }
@@ -408,7 +419,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 
 #pragma mark - scroolView observation helper
 - (void)scrollViewDidScrollToOffset:(CGPoint)contentOffset {
-    CGFloat offsetY = contentOffset.y + _scrollViewOriginalInset.top;
+    CGFloat offsetY = contentOffset.y;
     CGFloat refreshViewY = self.frame.origin.y;
     //判断是否可以执行refresh
     if (offsetY - refreshViewY <= kNeedsRefreshingSpacing&& refreshViewY < 0) {
@@ -447,6 +458,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 - (void)scrollViewDidBeginDragging {
     if (_refreshState == TTPullRefreshStateNone) {
         _scrollViewOriginalInset = _scrollView.contentInset;
+        _didSetOriginalInsets = YES;
     }
 }
 
