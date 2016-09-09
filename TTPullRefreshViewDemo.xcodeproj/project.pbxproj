@@ -15,6 +15,7 @@
 		E4241C2B1D816531009988AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4241C291D816531009988AF /* LaunchScreen.storyboard */; };
 		E4241C361D816531009988AF /* TTPullRefreshViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E4241C351D816531009988AF /* TTPullRefreshViewDemoTests.m */; };
 		E4241C411D816531009988AF /* TTPullRefreshViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E4241C401D816531009988AF /* TTPullRefreshViewDemoUITests.m */; };
+		E4241C511D81656A009988AF /* TTPullRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4241C501D81656A009988AF /* TTPullRefreshView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		E4241C3C1D816531009988AF /* TTPullRefreshViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTPullRefreshViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4241C401D816531009988AF /* TTPullRefreshViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTPullRefreshViewDemoUITests.m; sourceTree = "<group>"; };
 		E4241C421D816531009988AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4241C4F1D81656A009988AF /* TTPullRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPullRefreshView.h; sourceTree = "<group>"; };
+		E4241C501D81656A009988AF /* TTPullRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPullRefreshView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 		E4241C1A1D816531009988AF /* TTPullRefreshViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E4241C4E1D81656A009988AF /* Views */,
 				E4241C1E1D816531009988AF /* AppDelegate.h */,
 				E4241C1F1D816531009988AF /* AppDelegate.m */,
 				E4241C211D816531009988AF /* ViewController.h */,
@@ -138,6 +142,15 @@
 				E4241C421D816531009988AF /* Info.plist */,
 			);
 			path = TTPullRefreshViewDemoUITests;
+			sourceTree = "<group>";
+		};
+		E4241C4E1D81656A009988AF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4241C4F1D81656A009988AF /* TTPullRefreshView.h */,
+				E4241C501D81656A009988AF /* TTPullRefreshView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4241C231D816531009988AF /* ViewController.m in Sources */,
+				E4241C511D81656A009988AF /* TTPullRefreshView.m in Sources */,
 				E4241C201D816531009988AF /* AppDelegate.m in Sources */,
 				E4241C1D1D816531009988AF /* main.m in Sources */,
 			);

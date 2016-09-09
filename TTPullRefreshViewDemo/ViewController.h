@@ -1,9 +1,9 @@
 //
 //  ViewController.h
-//  TTPullRefreshViewDemo
+//  RefreshControllTest
 //
-//  Created by turtle on 16/9/8.
-//  Copyright © 2016年 turtle. All rights reserved.
+//  Created by Turtle on 16/8/26.
+//  Copyright © 2016年 Turtle. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
