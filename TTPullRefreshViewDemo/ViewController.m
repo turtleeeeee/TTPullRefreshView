@@ -15,6 +15,7 @@
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (copy, nonatomic) NSMutableArray *models;
 
 @end
 
@@ -24,13 +25,23 @@
     [super viewDidLoad];
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    _models = [NSMutableArray arrayWithArray:@[
+                                               @"Stephen Curry",
+                                               @"James Harden",
+                                               @"Klay Thompson",
+                                               @"Lamarcus Aldridge",
+                                               @"Tristan Thompson"
+                                               ]];
     TTPullRefreshView *refreshView = [TTPullRefreshView defaultRefreshView];
-    refreshView.titles = @[@"正在努力刷新...", @"2016-09-08 17:25"];
+    refreshView.layoutType = TTPullRefreshLayoutLeft;
+    refreshView.titles = @[@"正在努力刷新...", @"请稍等", @"2016-09-08 17:25"];
     [refreshView setGuidingText:@"刷新完成" forState:TTPullRefreshStateFinished];
     [refreshView setGuidingText:@"下拉刷新" forState:TTPullRefreshStatePullToRefresh];
     [refreshView setGuidingText:@"松手刷新" forState:TTPullRefreshStateLooseToRefresh];
+    [refreshView setTitleFontSize:16.0f];
+    [refreshView setSubTitleFontSize:12.0f];
     [refreshView setTitleColor:[UIColor grayColor]];
-    [refreshView setSubTitleColor:[UIColor grayColor]];
+    [refreshView setSubTitleColor:[UIColor blueColor]];
     [refreshView setTarget:self action:@selector(refreshHandler:)];
     _tableView.refreshView = refreshView;
 }
@@ -40,10 +51,25 @@
 }
 
 - (void)refreshHandler:(id)sender {
-    NSLog(@"-----------------------------refreshing..");
     TTPullRefreshView *pullRefreshView = sender;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [pullRefreshView finished];
+        if (_models.count == 10) {
+            [_models removeObjectsInRange:NSMakeRange(5, 5)];
+            [_tableView reloadData];
+        }
+        else {
+            
+            [_models addObjectsFromArray:@[
+                                           @"Russell Westbrook",
+                                           @"Paul Pierce",
+                                           @"Paul George",
+                                           @"Carmelo Anthony",
+                                           @"Joakim Noah"
+                                           ]];
+            [_tableView reloadData];
+
+        }
     });
 }
 
@@ -52,7 +78,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return _models.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -61,15 +87,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseID];
     }
+    cell.textLabel.text = _models[indexPath.row];
     return cell;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-}
-
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
-    
 }
 
 @end

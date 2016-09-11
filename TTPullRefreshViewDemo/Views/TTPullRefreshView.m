@@ -38,6 +38,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
         [self addSubview:refreshView];
         [self addObserver:refreshView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:refreshView forKeyPath:@"pan.state" options:NSKeyValueObservingOptionNew context:nil];//这是scrollView私有的东西= =慎用
+//        [self.panGestureRecognizer addTarget:self.refreshView action:@selector(scrollViewPanHandler)];
         [refreshView setValue:self forKey:@"scrollView"];
         if (!shouldSwizzleIfRefreshViewIsNil) {
             [self swizzleMethods];
@@ -69,7 +70,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
         self.refreshView.frame = CGRectMake(0, - refreshViewHeight - scrollViewOriginalInset.top, self.frame.size.width, refreshViewHeight);
     }
     else if(self.contentInset.top != 0) {
-        self.refreshView.frame = CGRectMake(0, - refreshViewHeight - self.contentInset.top, self.frame.size.width, refreshViewHeight);
+            self.refreshView.frame = CGRectMake(0, - refreshViewHeight - self.contentInset.top, self.frame.size.width, refreshViewHeight);
     }
 }
 
@@ -158,6 +159,11 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     pullRefreshView.didSetOriginalInsets = NO;
     [pullRefreshView setupPullRefreshView];
     return pullRefreshView;
+}
+
+- (void)setLayoutType:(TTPullRefreshLayoutType)layoutType {
+    _layoutType = layoutType;
+    [self setupPullRefreshView];
 }
 
 - (void)setGuidingText:(NSString *)guidingText forState:(TTPullRefreshState)state {
@@ -281,22 +287,17 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 - (void)setupPullRefreshView {
     _indicatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading"]];
     _refreshState = TTPullRefreshStateNone;
-    if (_titles) {
-        switch (_layoutType) {
-            case TTPullRefreshLayoutLeft:
-            case TTPullRefreshLayoutRight:
-                [self layoutsHorizontalType];
-                break;
-            case TTPullRefreshLayoutTop:
-            case TTPullRefreshLayoutBottom:
-                [self layoutsVerticalType];
-                break;
-            default:
-                break;
-        }
-    }
-    else {
-        [self layoutsVerticalType];
+    switch (_layoutType) {
+        case TTPullRefreshLayoutLeft:
+        case TTPullRefreshLayoutRight:
+            [self layoutsHorizontalType];
+            break;
+        case TTPullRefreshLayoutTop:
+        case TTPullRefreshLayoutBottom:
+            [self layoutsVerticalType];
+            break;
+        default:
+            break;
     }
 }
 
@@ -327,7 +328,14 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     }
 }
 
+- (void)checkStackView {
+    if (_horizontalStackView) {
+        [_horizontalStackView removeFromSuperview];
+    }
+}
+
 - (void)layoutsHorizontalType {
+    [self checkStackView];
     [self setupHorizontalStackView];
     [self setupVerticalStackView];
     UIView *firstView, *secondView;
@@ -349,6 +357,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 }
 
 - (void)layoutsVerticalType {
+    [self checkStackView];
     [self setupHorizontalStackView];
     [self setupVerticalStackView];
     if (_layoutType == TTPullRefreshLayoutTop) {
@@ -436,6 +445,10 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
             self.refreshState = TTPullRefreshStatePullToRefresh;
         }
     }
+}
+
+- (void)scrollViewPanHandler {
+    
 }
 
 - (void)scrollViewDidEndDragging {
