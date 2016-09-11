@@ -37,8 +37,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     if (refreshView != nil) {
         [self addSubview:refreshView];
         [self addObserver:refreshView forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-        [self addObserver:refreshView forKeyPath:@"pan.state" options:NSKeyValueObservingOptionNew context:nil];//这是scrollView私有的东西= =慎用
-//        [self.panGestureRecognizer addTarget:self.refreshView action:@selector(scrollViewPanHandler)];
+        [self.panGestureRecognizer addTarget:self.refreshView action:@selector(scrollViewPanHandler:)];
         [refreshView setValue:self forKey:@"scrollView"];
         if (!shouldSwizzleIfRefreshViewIsNil) {
             [self swizzleMethods];
@@ -123,12 +122,10 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 - (void)willMoveToSuperview:(UIView * _Nullable)newSuperview {
     [super willMoveToSuperview:newSuperview];
     [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
-    [_scrollView removeObserver:self forKeyPath:@"pan.state"];
 }
 
 - (void)dealloc {
     [_scrollView removeObserver:self forKeyPath:@"contentOffset"];
-    [_scrollView removeObserver:self forKeyPath:@"pan.state"];
 }
 
 #pragma mark - KVO
@@ -138,15 +135,6 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint contentOffset = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue];
         [self scrollViewDidScrollToOffset:contentOffset];
-    }
-    else if ([keyPath isEqualToString:@"pan.state"]) {
-        UIGestureRecognizerState state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
-        if (state == UIGestureRecognizerStateEnded) {
-            [self scrollViewDidEndDragging];
-        }
-        else if (state == UIGestureRecognizerStateBegan) {
-            [self scrollViewDidBeginDragging];
-        }
     }
 }
 
@@ -447,8 +435,14 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     }
 }
 
-- (void)scrollViewPanHandler {
-    
+- (void)scrollViewPanHandler:(id) sender {
+    UIPanGestureRecognizer *pan = sender;
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        [self scrollViewDidBeginDragging];
+    }
+    else if (pan.state == UIGestureRecognizerStateEnded) {
+        [self scrollViewDidEndDragging];
+    }
 }
 
 - (void)scrollViewDidEndDragging {
