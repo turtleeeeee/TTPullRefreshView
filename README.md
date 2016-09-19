@@ -21,14 +21,18 @@ _tableView.refreshView = refreshView;
 </code>
 </pre>
 Here's a basic TTPullRefreshView looks like:
+
 ![GIF](Images/Basic.gif)
+
 And its response is based on the target-action mechanism.
 ###Tittles
 Use the `titles` property to add some titles to TTPullRefreshView. `titles` is an array. So when you add several strings into it, it will setup some labels for the strings in titles vertically.
 Therefore, if I use the code:
 `refreshView.titles = @[@"正在努力刷新...", @"2016-09-08 17:25"];`
 to add two titles, TTPullRefreshView will look like this:
+
 ![GIF](Images/titles.gif)
+
 ####Font size and text color
 TTPullRefreshView allows you to set font size and color of both title and subtitle, and because of a frame calculation issue, it's not supporting attributed 
 string yet.
@@ -39,7 +43,9 @@ Setting text color:
 `[refreshView setTitleColor:[UIColor grayColor]];
  [refreshView setSubTitleColor:[UIColor blueColor]];`
 And in my configuration, the first title is the main title-.-, the others are subtitles. Thus when you add the code above, TTPullRefreshView will become:
+
 ![GIF](Images/font size and text color.gif)
+
 ###Guiding text
 There'll be some states for TTPullRefreshView in its pull refreshing period.
 It's an enum called TTPullRefreshState, and its definition is:
@@ -69,7 +75,9 @@ So when you add code like below, TTPullRefreshView will be more alive :).
 </code>
 </pre>
 Here's the effect:
+
 ![GIF](Images/guiding text.gif)
+
 ps:The 'setGuidingText:forState:' API only supports 'TTPullRefreshStatePullToRefresh','TTPullRefreshStateLooseToRefresh', 'TTPullRefreshStateFinished' now. Please don't set guiding text at refreshing state or none state.
 ###Now change its layout style!
 TTPullRefreshView has a property named 'layoutType'. It's for changing the appearance of the pull refresh view. It's an enum called TTPullRefreshLayoutType.
@@ -84,13 +92,13 @@ typedef NS_ENUM(NSInteger, TTPullRefreshLayoutType) {
 </pre>
 </code>
 As you can see, it has four attributes. Each of them will control the indicator's location. By default, TTPullRefreshView is set to TTPullRefreshLayoutTop layout type. So when you go to set the layoutType property to 'TTPullRefreshLayoutLeft'. Its appearance will become:
+
 ![GIF](Images/change layout type.gif)
+
 ###Change the indicator:
 The indicator is actually a UIImageView, and it'll have a spinning animation while refreshing. =.=So it only supports those indicators which will work fine with spinning animation. If you want to change it, use the 'indicatorView' property.
 ###Finished
 Last but not least, you should call `-(void)finished;` when you finished your refreshing assignment.
-##Explanation and warning //找到新方法了。。这个可能可以不用了~
-In this project, I write a UIScrollView category to make pull refresh view conveniently added on top of the scroll view. Thus you won't need to change the structure of your table view. However, using this methodology, I can't get delegate of the scroll view in TTPullRefreshView. Because of this, I have to use KVO to monitor `contentOffset` of the scroll view to imitate a `-(void)scrollViewDidScroll`. There comes an obstacle while I am trying to imitate a `-(void)scrollViewDidEndDragging` method. Because the `dragging` property doesn't have a setter, you can't use KVO mechanism on it. 
 
 
 
