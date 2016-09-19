@@ -65,6 +65,7 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
     CGFloat refreshViewHeight = [self getRefreshViewHeight];
     UIEdgeInsets scrollViewOriginalInset = [[self.refreshView valueForKey:@"scrollViewOriginalInset"] UIEdgeInsetsValue];
     BOOL didSetOriginalInsets = [[self.refreshView valueForKey:@"didSetOriginalInsets"] boolValue];
+    NSLog(@"%@", self.refreshView);
     if (didSetOriginalInsets) {
         self.refreshView.frame = CGRectMake(0, - refreshViewHeight - scrollViewOriginalInset.top, self.frame.size.width, refreshViewHeight);
     }
@@ -156,7 +157,6 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 
 - (void)setGuidingText:(NSString *)guidingText forState:(TTPullRefreshState)state {
     [_stateTitles setObject:guidingText forKey:[NSNumber numberWithInteger:state]];
-    
 }
 
 - (void)setTitles:(NSArray<NSString *> * _Nullable)titles {
@@ -463,9 +463,11 @@ BOOL shouldSwizzleIfRefreshViewIsNil = NO;
 }
 
 - (void)scrollViewDidBeginDragging {
-    if (_refreshState == TTPullRefreshStateNone) {
-        _scrollViewOriginalInset = _scrollView.contentInset;
-        _didSetOriginalInsets = YES;
+    if (_refreshState == TTPullRefreshStateNone || _refreshState == TTPullRefreshStatePullToRefresh) {
+        if (!_didSetOriginalInsets) {
+            _scrollViewOriginalInset = _scrollView.contentInset;
+            _didSetOriginalInsets = YES;
+        }
     }
 }
 
