@@ -42,13 +42,20 @@ TTPullRefreshView allows you to set font size and color of both title and subtit
 string yet.
 Setting font size:
 
-`[refreshView setTitleFontSize:16.0f];
- [refreshView setSubTitleFontSize:12.0f];`
+<pre>
+<code>
+	[refreshView setTitleFontSize:16.0f];
+	[refreshView setSubTitleFontSize:12.0f];
+</code>
+</pre>
  
 Setting text color:
-
-`[refreshView setTitleColor:[UIColor grayColor]];
- [refreshView setSubTitleColor:[UIColor blueColor]];`
+<pre>
+<code>
+	[refreshView setTitleColor:[UIColor grayColor]];
+	[refreshView setSubTitleColor:[UIColor blueColor]];`
+</code>
+</pre>
  
 And in my configuration, the first title is the main title-.-, the others are subtitles. Thus when you add the code above, TTPullRefreshView will become:
 
