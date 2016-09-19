@@ -9,7 +9,9 @@ By the way, TTPullRefreshView is only perfectly supporting UITableView so far. B
 You can download the repository, and simply drag the TTPullRefreshView class into your project. (It's all in one class. Maybe it'll not have a good design pattern, and you are welcome to give me some advice.)
 ##Customize your own pull refresh view
 Simply import the TTPullRefreshView header file like below:
+
 `#import "TTPullRefreshView.h" `
+
 and there you go.
 ###Add it up!
 Use three lines of code below to setup a basic version of TTPullRefreshView:
@@ -28,7 +30,9 @@ And its response is based on the target-action mechanism.
 ###Tittles
 Use the `titles` property to add some titles to TTPullRefreshView. `titles` is an array. So when you add several strings into it, it will setup some labels for the strings in titles vertically.
 Therefore, if I use the code:
+
 `refreshView.titles = @[@"正在努力刷新...", @"2016-09-08 17:25"];`
+
 to add two titles, TTPullRefreshView will look like this:
 
 ![GIF](Images/titles.gif)
@@ -37,11 +41,15 @@ to add two titles, TTPullRefreshView will look like this:
 TTPullRefreshView allows you to set font size and color of both title and subtitle, and because of a frame calculation issue, it's not supporting attributed 
 string yet.
 Setting font size:
+
 `[refreshView setTitleFontSize:16.0f];
  [refreshView setSubTitleFontSize:12.0f];`
+ 
 Setting text color:
+
 `[refreshView setTitleColor:[UIColor grayColor]];
  [refreshView setSubTitleColor:[UIColor blueColor]];`
+ 
 And in my configuration, the first title is the main title-.-, the others are subtitles. Thus when you add the code above, TTPullRefreshView will become:
 
 ![GIF](Images/font size and text color.gif)
