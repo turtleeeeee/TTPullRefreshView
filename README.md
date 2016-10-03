@@ -3,6 +3,29 @@
 This is a Simple pull refresh view you can play with. At the first beginning, I am mean to design a pull refresh view with a convenient usage in a project. In addition, it should have several layout styles to be used, which gives diverse appearance of the refresh view.
 By the way, TTPullRefreshView is only perfectly supporting UITableView so far. But its final goal is to support both UITableView and UICollectionView (ps:If the width of your collection view's content size is not bigger than the screen width, TTPullRefreshView will work fine too: )).
 ##Import
+##CocoaPods
+CocoaPods is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like TTPullRefreshView in your projects.  You can install it with the following command:
+<pre>
+<code>
+$ gem install cocoapods
+</code>
+</pre>
+###Podfile
+Generate a Podfile under your project, and specify the code in it:  
+<pre>
+<code>
+platform :ios, '9.0'
+target 'TargetName' do
+	pod 'TTPullRefreshView', '~> 1.0.0'
+end
+</code>
+</pre>
+Then, run the following command:  
+<pre>
+<code>
+pod install
+</code>
+</pre>
 ##Directly import TTPullRefreshView
 You can download the repository, and simply drag the TTPullRefreshView class into your project. (It's all in one class. Maybe it'll not have a good design pattern, and you are welcome to give me some advice.)
 ##Customize your own pull refresh view
