@@ -45,7 +45,7 @@ _tableView.refreshView = refreshView;
 </pre>
 Here's a basic TTPullRefreshView looks like:
 
-![GIF](Images/Basic.gif)
+![](Images/Basic.gif)
 
 And its response is based on the target-action mechanism.
 ### Tittles
@@ -56,7 +56,7 @@ Therefore, if I use the code:
 
 to add two titles, TTPullRefreshView will look like this:
 
-![GIF](Images/titles.gif)
+![](Images/titles.gif)
 
 #### Font size and text color
 TTPullRefreshView allows you to set font size and color of both title and subtitle, and because of a frame calculation issue, it's not supporting attributed 
@@ -80,7 +80,7 @@ Setting text color:
  
 And in my configuration, the first title is the main title-.-, the others are subtitles. Thus when you add the code above, TTPullRefreshView will become:
 
-![GIF](Images/font size and text color.gif)
+![](Images/font-size-and-text-color.gif)
 
 ### Guiding text
 There'll be some states for TTPullRefreshView in its pull refreshing period.
@@ -112,7 +112,7 @@ So when you add code like below, TTPullRefreshView will be more alive :).
 </pre>
 Here's the effect:
 
-![GIF](Images/guiding text.gif)
+![](Images/guiding-text.gif)
 
 ps:The 'setGuidingText:forState:' API only supports 'TTPullRefreshStatePullToRefresh','TTPullRefreshStateLooseToRefresh', 'TTPullRefreshStateFinished' now. Please don't set guiding text at refreshing state or none state.
 ### Now change its layout style!
@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, TTPullRefreshLayoutType) {
 </code>
 As you can see, it has four attributes. Each of them will control the indicator's location. By default, TTPullRefreshView is set to TTPullRefreshLayoutTop layout type. So when you go to set the layoutType property to 'TTPullRefreshLayoutLeft'. Its appearance will become:
 
-![GIF](Images/change layout type.gif)
+![](Images/change-layout-type.gif)
 
 ### Change the indicator:
 The indicator is actually a UIImageView, and it'll have a spinning animation while refreshing. =.=So it only supports those indicators which will work fine with spinning animation. If you want to change it, use the 'indicatorView' property.
