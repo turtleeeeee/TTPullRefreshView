@@ -5,27 +5,21 @@ By the way, TTPullRefreshView is only perfectly supporting UITableView so far. B
 ## Import
 ## CocoaPods
 CocoaPods is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like TTPullRefreshView in your projects.  You can install it with the following command:
-<pre>
-<code>
+```
 $ gem install cocoapods
-</code>
-</pre>
+```
 ### Podfile
 Generate a Podfile under your project, and specify the code in it:  
-<pre>
-<code>
+```
 platform :ios, '9.0'
 target 'TargetName' do
 	pod 'TTPullRefreshView', '~> 1.0.0'
 end
-</code>
-</pre>
+```
 Then, run the following command:  
-<pre>
-<code>
+```
 pod install
-</code>
-</pre>
+```
 ## Directly import TTPullRefreshView
 You can download the repository, and simply drag the TTPullRefreshView class into your project. (It's all in one class. Maybe it'll not have a good design pattern, and you are welcome to give me some advice.)
 ## Customize your own pull refresh view
@@ -36,13 +30,11 @@ Simply import the TTPullRefreshView header file like below:
 and there you go.
 ### Add it up!
 Use three lines of code below to setup a basic version of TTPullRefreshView:
-<pre>
-<code>
+```objc
 TTPullRefreshView *refreshView = [TTPullRefreshView defaultRefreshView];
 [refreshView setTarget:self action:@selector(refreshHandler:)];
 _tableView.refreshView = refreshView;
-</code>
-</pre>
+```
 Here's a basic TTPullRefreshView looks like:
 
 ![](Images/Basic.gif)
@@ -63,20 +55,16 @@ TTPullRefreshView allows you to set font size and color of both title and subtit
 string yet.
 Setting font size:
 
-<pre>
-<code>
+```objc
 	[refreshView setTitleFontSize:16.0f];
 	[refreshView setSubTitleFontSize:12.0f];
-</code>
-</pre>
+```
  
 Setting text color:
-<pre>
-<code>
+```objc
 	[refreshView setTitleColor:[UIColor grayColor]];
 	[refreshView setSubTitleColor:[UIColor blueColor]];`
-</code>
-</pre>
+```
  
 And in my configuration, the first title is the main title-.-, the others are subtitles. Thus when you add the code above, TTPullRefreshView will become:
 
@@ -85,8 +73,7 @@ And in my configuration, the first title is the main title-.-, the others are su
 ### Guiding text
 There'll be some states for TTPullRefreshView in its pull refreshing period.
 It's an enum called TTPullRefreshState, and its definition is:
-<pre>
-<code>
+```objc
 	typedef NS_ENUM(NSInteger, TTPullRefreshState) {
 	    TTPullRefreshStateNone,
 	    TTPullRefreshStatePullToRefresh,
@@ -94,22 +81,17 @@ It's an enum called TTPullRefreshState, and its definition is:
 	    TTPullRefreshStateRefreshing,
 	    TTPullRefreshStateFinished
 	};
-</code>
-</pre>
+```
 For purpose of setting different guiding texts at different states, I add an API to TTPullRefreshView as:
-<pre>
-<code>
+```objc
 	- (void)setGuidingText:(NSString *)guidingText forState:(TTPullRefreshState)state;
-</code>
-</pre>
+```
 So when you add code like below, TTPullRefreshView will be more alive :). 
-<pre>
-<code>
+```objc
 	[refreshView setGuidingText:@"刷新完成" forState:TTPullRefreshStateFinished];
 	[refreshView setGuidingText:@"下拉刷新" forState:TTPullRefreshStatePullToRefresh];
 	[refreshView setGuidingText:@"松手刷新" forState:TTPullRefreshStateLooseToRefresh];
-</code>
-</pre>
+```
 Here's the effect:
 
 ![](Images/guiding-text.gif)
@@ -117,16 +99,14 @@ Here's the effect:
 ps:The 'setGuidingText:forState:' API only supports 'TTPullRefreshStatePullToRefresh','TTPullRefreshStateLooseToRefresh', 'TTPullRefreshStateFinished' now. Please don't set guiding text at refreshing state or none state.
 ### Now change its layout style!
 TTPullRefreshView has a property named 'layoutType'. It's for changing the appearance of the pull refresh view. It's an enum called TTPullRefreshLayoutType.
-<pre>
-<code>
+```objc
 typedef NS_ENUM(NSInteger, TTPullRefreshLayoutType) {
     TTPullRefreshLayoutLeft,
     TTPullRefreshLayoutRight,
     TTPullRefreshLayoutTop,
     TTPullRefreshLayoutBottom
 };
-</pre>
-</code>
+```
 As you can see, it has four attributes. Each of them will control the indicator's location. By default, TTPullRefreshView is set to TTPullRefreshLayoutTop layout type. So when you go to set the layoutType property to 'TTPullRefreshLayoutLeft'. Its appearance will become:
 
 ![](Images/change-layout-type.gif)
